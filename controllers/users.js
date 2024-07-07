@@ -4,6 +4,7 @@ module.exports = {
   signup,
   getSaltAndIterations,
   loginUser,
+  logoutUser
 };
 
 async function signup(req, res) {
@@ -20,6 +21,7 @@ async function getSaltAndIterations(req, res) {
   try {
     const user = await UserModel.getSaltAndIterations(req.query);
     res.json(user);
+    
   } catch (err) {
     console.log(err);
     res.status(500).json({ err });
@@ -36,6 +38,21 @@ async function loginUser(req, res) {
     }
     res.json(token.data);
   } catch (err) {
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+
+async function logoutUser(req, res) {
+  try {
+    const result = await UserModel.logoutUser(req.body);
+    console.log('result', result)
+    if (!result.success) {
+      res.status(400).json({errorMsg: result.error})
+      return 
+    }
+    res.json(result.data)
+  }
+  catch (err) {
     res.status(500).json({ errorMsg: err.message });
   }
 }
