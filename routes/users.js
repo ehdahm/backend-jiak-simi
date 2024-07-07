@@ -10,4 +10,7 @@ router.get("/", function (req, res, next) {
 // POST signup users
 router.post("/signup", UserController.signup);
 
+router.get("/login", UserController.getSaltAndIterations); // GET returns user salt and iterations from db
+router.post("/login", UserController.loginUser); // POST jwt_token to db, returns token
+
 module.exports = router;

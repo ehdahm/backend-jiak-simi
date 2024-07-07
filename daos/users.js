@@ -19,7 +19,7 @@ const userSchema = new Schema(
     iterations: {
       type: Number,
       required: true,
-    },
+    }, 
   },
   {
     timestamps: true,
