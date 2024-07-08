@@ -1,3 +1,4 @@
+const { token } = require("morgan");
 const UserDao = require("../daos/users");
 const UserSessionsDao = require('../daos/userSessions')
 const utilSecurity = require("../utils/security");
@@ -6,6 +7,7 @@ module.exports = {
   signup,
   getSaltAndIterations,
   loginUser,
+  logoutUser
 };
 
 async function signup(body) {
@@ -66,4 +68,14 @@ async function loginUser(body) {
     { user_id: userId, token: token, expire_at: expiry },
   );
   return { success: true, data: token };
+}
+
+async function logoutUser(body) {
+  if (!body.hasOwnProperty('user_id')) {
+    return {success: false, error: "missing user_id"};
+  }
+  console.log('body.user_id',body.user_id)
+  await UserSessionsDao.deleteOne({"user_id": body.user_id});
+  const userData = await UserDao.findOne({"_id": body.user_id})
+  return { success: true, data: userData.username}
 }
