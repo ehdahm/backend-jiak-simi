@@ -1,26 +1,17 @@
 const mongoose = require("mongoose");
-
+// optional shortcut to the mongoose.Schema class
 const Schema = mongoose.Schema;
 
-const userSchema = new Schema(
+const placesSchema = new Schema(
   {
-    username: {
+    name: {
       type: String,
       required: true,
     },
-    password: {
+    cuisine: {
       type: String,
       required: true,
     },
-    salt: {
-      type: String,
-      required: true,
-    },
-    iterations: {
-      type: Number,
-      required: true,
-    },
-
   },
   {
     timestamps: true,
@@ -28,5 +19,5 @@ const userSchema = new Schema(
 );
 
 // Compile the schema into a model and export it
-module.exports = mongoose.model("User", userSchema);
-
+// highlight-next-line
+module.exports = mongoose.model("Places", placesSchema);

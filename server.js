@@ -7,9 +7,11 @@ require("dotenv").config();
 require("./client/mongo");
 
 var securityMiddleware = require("./middlewares/security");
-
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
+var reviewsRouter = require("./routes/reviews");
+var dishesRouter = require("./routes/dishes");
+var placesRouter = require("./routes/places");
 
 var app = express();
 
@@ -25,5 +27,8 @@ app.use(securityMiddleware.checkJWT);
 //routes
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
+app.use("/reviews", reviewsRouter);
+app.use("/dishes", dishesRouter);
+app.use("/places", placesRouter);
 
 module.exports = app;
