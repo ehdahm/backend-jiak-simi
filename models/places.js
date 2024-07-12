@@ -5,6 +5,7 @@ var ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports = {
   getReview,
+  findOrCreatePlace,
 };
 
 async function getReview() {
@@ -42,3 +43,11 @@ async function getReview() {
 
 // const allReviews = await daoReview.find({ _id: objectId }, reviewDetailsSchema);
 // let randomID = allReviews[math.floor(math.random(allReviews.length))];
+
+async function findOrCreatePlace(placeName, cuisine) {
+  let placeDoc = await daoPlace.findOne({ name: placeName });
+  if (!placeDoc) {
+    placeDoc = await daoPlace.create({ name: placeName, cuisine });
+  }
+  return placeDoc;
+}

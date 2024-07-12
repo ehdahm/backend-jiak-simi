@@ -6,13 +6,21 @@ const dishesSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: false,
     },
     place_id: {
       type: Schema.Types.ObjectId,
       ref: "Places",
-      required: true,
+      required: false,
     },
+    avg_rating: {
+      type: Number,
+      required: false
+    },
+    latest_price: {
+      type: Number,
+      required: false
+    }
   },
   {
     timestamps: true,
