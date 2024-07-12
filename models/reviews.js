@@ -3,6 +3,7 @@ const modelPlace = require('../models/places')
 const modelDish = require('../models/dishes')
 const daoPlace = require("../daos/places");
 const daoDish = require("../daos/dishes");
+const userSessions = require("../daos/userSessions");
 
 var ObjectId = require("mongoose").Types.ObjectId;
 
@@ -44,13 +45,14 @@ async function getReview() {
   return { success: true, data: review };
 }
 
-async function createDishReview(dish, dishId) {
+async function createDishReview(dish, dishId, userId) {
   return await daoReview.create({
     name: dish.dish,
     comment: dish.comments,
     price: dish.price,
     rating: dish.rating,
     dish_id: dishId,
+    user_id: userId
   });
 }
 
@@ -65,26 +67,30 @@ async function createDishReview(dish, dishId) {
 async function createReview(body) {
   try {
     // destructure the inputs
-    const { place, cuisine, dishes } = body;
+    const { token, place, cuisine, dishes } = body;
     
+    // find user who is adding the review
+    let userSessionDoc = await userSessions.findOne({token})
+    console.log(userSessionDoc.user_id)
+
     // check if theres a place, if not create it
-    let placeDoc = await modelPlace.findOrCreatePlace(place, cuisine);
+    let placeDoc = await modelPlace.findOrCreatePlace(place, cuisine); // returns obj
     
     // check if theres a dish, if not create it
-    let dishDocs = await Promise.all(dishes.map(dish => modelDish.findOrCreateDish(dish.dish, placeDoc._id)));
+    let dishDocs = await Promise.all(dishes.map(dish => modelDish.findOrCreateDish(dish.dish, placeDoc._id))); // returns arr
     
     // create the review
-    let reviewDocs = await Promise.all(dishes.map((dish, index) => 
-      createDishReview(dish, dishDocs[index]._id)
+    let reviewDocs = await Promise.all(dishes.map((dish, index) => // returns arr 
+      createDishReview(dish, dishDocs[index]._id, userSessionDoc.user_id)
     ));
 
     // merge responses
     const data = {placeDoc, dishDocs, reviewDocs}
     console.log(data)
-    return data
+    return {success : true, data}
   } catch (error) {
     console.error('Error in createReview:', error);
-    throw error;
+    throw {success : false, error};
   }
 }
 

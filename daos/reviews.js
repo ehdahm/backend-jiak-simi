@@ -1,3 +1,4 @@
+const { MongoTailableCursorError } = require("mongodb");
 const mongoose = require("mongoose");
 // optional shortcut to the mongoose.Schema class
 const Schema = mongoose.Schema;
@@ -7,7 +8,7 @@ const reviewsSchema = new Schema(
     user_id: {
       type: Schema.Types.ObjectId,
       Ref: "Users",
-      required: false,
+      required: true,
     },
     dish_id: {
       type: Schema.Types.ObjectId,
