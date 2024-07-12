@@ -13,6 +13,14 @@ const dishesSchema = new Schema(
       ref: "Places",
       required: false,
     },
+    avg_rating: {
+      type: Number,
+      required: false
+    },
+    latest_price: {
+      type: Number,
+      required: false
+    }
   },
   {
     timestamps: true,
