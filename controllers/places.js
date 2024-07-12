@@ -1,16 +1,17 @@
 const Places = require("../models/places");
 
 module.exports = {
-  getReview,
+  getPlace,
 };
 
-async function getReview(req, res) {
+async function getPlace(req, res) {
   try {
-    const places = await Places.getReview(req.body); // pass req to model
-    // console.log(`CONTROLLER PLACES: ${JSON.stringify(places)}`);
-    res.status(200).json(places);
+    console.log(`getPlace req.params.place_id`, req.params.place_id)
+    console.log(`getPlace req.params.dish_id`, req.params.dish_id)
+    const place = await Places.getPlace(req.params.place_id, req.params.dish_id); 
+    console.log(`place json`, place);
+    res.status(200).json(place);
   } catch (err) {
-    // Typically some sort of validation error
     console.log(err);
     res.status(500).json({ err });
   }
