@@ -7,24 +7,24 @@ const reviewsSchema = new Schema(
     user_id: {
       type: Schema.Types.ObjectId,
       Ref: "Users",
-      required: true,
+      required: false,
     },
     dish_id: {
       type: Schema.Types.ObjectId,
       ref: "Dishes",
-      required: true,
+      required: false,
     },
     price: {
       type: Number,
-      required: true,
+      required: false,
     },
     rating: {
       type: Number,
-      required: true,
+      required: false,
     },
     comment: {
       type: String,
-      required: true,
+      required: false,
     },
   },
   {

@@ -6,12 +6,12 @@ const dishesSchema = new Schema(
   {
     name: {
       type: String,
-      required: true,
+      required: false,
     },
     place_id: {
       type: Schema.Types.ObjectId,
       ref: "Places",
-      required: true,
+      required: false,
     },
   },
   {
