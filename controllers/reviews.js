@@ -1,22 +1,22 @@
 const Reviews = require("../models/reviews");
 
 module.exports = {
-  // getReview,
+  fetchReviewsByUser,
   createReview,
 };
 
-// async function getReview(req, res) {
-//   try {
-//     console.log('getReview req.body', req.body)
-//     const review = await Reviews.getReview(req.body); // pass req to model //respond with review input
-//     console.log("review json:", review);
-//     res.status(200).json(review);
-//   } catch (err) {
-//     // Typically some sort of validation error
-//     console.log(err);
-//     res.status(500).json({ err });
-//   }
-// }
+async function fetchReviewsByUser(req, res) {
+  try {
+    console.log('fetchReviewsByUser req.params.user_id', req.params.user_id)
+    const reviewsByUser = await Reviews.fetchReviewsByUser(req.params.user_id); // pass req to model //respond with review input
+    console.log("reviewsByUser json:", reviewsByUser);
+    res.status(200).json(reviewsByUser);
+  } catch (err) {
+    // Typically some sort of validation error
+    console.log(err);
+    res.status(500).json({ err });
+  }
+}
 
 async function createReview(req, res) {
   try {

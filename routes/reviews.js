@@ -9,4 +9,7 @@ var securityMiddleware = require('../middlewares/security')
 // POST new review 
 router.post("/new", reviewsCtrl.createReview); // currently passing token through the body, might change it to params
 
+// GET review by user 
+router.get("/:user_id", reviewsCtrl.fetchReviewsByUser); 
+
 module.exports = router;

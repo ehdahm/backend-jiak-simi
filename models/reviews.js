@@ -1,34 +1,54 @@
 const daoReview = require("../daos/reviews");
 const modelPlace = require('../models/places')
 const modelDish = require('../models/dishes')
-const daoPlace = require("../daos/places");
-const daoDish = require("../daos/dishes");
 const userSessions = require("../daos/userSessions");
 
 var ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports = {
-  // getReview,
+  fetchReviewsByUser,
   createReview,
   findAllByDishId,
 };
 
-// async function getReview() {
-//   const reviewDetailsSchema = {
-//     dish_id: 1,
-//     price: 1,
-//     rating: 1,
-//   };
 
-//   const review_id = "6688f49c8377c192f239c822";
-//   const objectId = new ObjectId(review_id);
+async function fetchReviewsByUser(userID) {
+  try {
+    const userObjectId = new ObjectId(userID); // Convert userID to ObjectId
+    // console.log(`userID`, userID);
+    // console.log(`userObjectId`, userObjectId);
 
-//   const review = await daoReview.findOne(
-//     { _id: objectId },
-//     reviewDetailsSchema
-//   );
-//   return { success: true, data: review };
-// }
+    let reviewDocsByUser = await daoReview.find({ user_id: userObjectId });
+console.log(`reviewDocsByUser`, reviewDocsByUser)
+
+// find dish_id from each reviewdoc 
+// let dishDocByReview = await(reviewDocsByUser.map((reviewDoc) => (reviewDoc.dish_id)))
+// console.log(`dishDocByReview`, dishDocByReview)
+
+
+//modelPlace.getPlace(reviewDoc.place_id, reviewDoc.dish_id) 
+//modelDish.getDish
+
+// let placeDocByDish = await Promise.all(dishDocByReview.map((dishDoc) => (modelPlace.getPlace(reviewDoc.place_id))))
+// console.log(`placeDocByDish`, placeDocByDish)
+
+// let placeDocByDish = await modelPlace.getPlace({place_id: dishDocByReview.place_id});
+   
+// let altogether = {reviewDocsByUser, dishDocByReview, placeDocByDish}
+// console.log(`altogether is`, altogether)
+
+    // console.log(`reviewDocsByUser json`, JSON.stringify(reviewDocsByUser));
+
+//find dish and food from modelDish.getDish(reviewDocsByUser.dish_id) to return dishDoc. 
+// dishDoc - name, place_id
+// append to reviewDocsByUser
+
+    return { success: true, data: reviewDocsByUser };
+  } catch (error) {
+    console.error("Error fetching reviews by user:", error);
+    return { success: false, error: error.message }; // Return error object
+  }
+}
 
 async function findAllByDishId(dishId) {
   return await daoReview.find({ dish_id: dishId });
