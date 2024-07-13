@@ -8,43 +8,27 @@ const userSessions = require("../daos/userSessions");
 var ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports = {
-  getReview,
+  // getReview,
   createReview,
   findAllByDishId,
 };
 
-async function getReview() {
-  const reviewDetailsSchema = {
-    dish_id: 1,
-    price: 1,
-    rating: 1,
-  };
-  // Check the type and value of user_idno
-  // console.log(`Type of user_idno: ${typeof user_idno}`);
-  // console.log(`user_idno: ${user_idno}`);
+// async function getReview() {
+//   const reviewDetailsSchema = {
+//     dish_id: 1,
+//     price: 1,
+//     rating: 1,
+//   };
 
-  // const placeDetailsSchema = {
-  //   name: 1, //change to name from daoDish and place from daoPlaces from dishID
-  // };
+//   const review_id = "6688f49c8377c192f239c822";
+//   const objectId = new ObjectId(review_id);
 
-  const review_id = "6688f49c8377c192f239c822";
-  const objectId = new ObjectId(review_id);
-
-  const review = await daoReview.findOne(
-    { _id: objectId },
-    reviewDetailsSchema
-  );
-  // console.log(`model reviewdetailschema: ${review}`);
-
-  // const place = await daoPlace.findOne(
-  //   { dish_id: dish.dish_id },
-  //   placeDetailsSchema
-  // );
-  // console.log(
-  //   `model: ${review.price},${review.rating}, ${dish.name}, ${place.name}`
-  // );
-  return { success: true, data: review };
-}
+//   const review = await daoReview.findOne(
+//     { _id: objectId },
+//     reviewDetailsSchema
+//   );
+//   return { success: true, data: review };
+// }
 
 async function findAllByDishId(dishId) {
   return await daoReview.find({ dish_id: dishId });
@@ -61,12 +45,6 @@ async function createDishReview(dish, dishId, userId) {
   });
 }
 
-
-//use dish_id from daoReview to find name + places_id in daoDish. Then use places_id from dishDao to find name in placeDao. Create constant to return object with dish@eatery, price, review
-//random reviews (getall to return array of _id in reviews, then math.random to choose one )
-
-// const allReviews = await daoReview.find({ _id: objectId }, reviewDetailsSchema);
-// let randomID = allReviews[math.floor(math.random(allReviews.length))];
 
 // there will be a few steps required to create a review
 async function createReview(body) {

@@ -4,44 +4,29 @@ const daoReview = require("../daos/reviews");
 var ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports = {
-  getReview,
+  getDish,
   findOrCreateDish,
   updatePrice,
-  updateAvgRating
+  updateAvgRating,
+  fetchAllDishesIDs
 };
 
-async function getReview() {
-  const review = await modelReview.getReview();
-  // console.log(`review in dishes model: ${review.data.dish_id}`);
-  const dishDetailsSchema = {
-    name: 1,
-    place_id: 1,
-  };
-  const dish_id = review.data.dish_id;
-  const dishObjectId = new ObjectId(dish_id);
-
-  const dish = await daoDish.findOne({ _id: dishObjectId }, dishDetailsSchema);
-  // console.log(`model dishDetailsSchema: ${dish}`);
-
-  // const placeDetailsSchema = {
-  //   name: 1, //change to name from daoDish and place from daoPlaces from dishID
+async function getDish(dish_id) {
+  let dishDoc = await daoDish.findOne({ _id: dish_id });
+  console.log('dishDoc', dishDoc);
+  // const review = await modelReview.getDish();
+  // // console.log(`review in dishes model: ${review.data.dish_id}`);
+  // const dishDetailsSchema = {
+  //   name: 1,
+  //   place_id: 1,
   // };
+  // const dish_id = review.data.dish_id;
+  // const dishObjectId = new ObjectId(dish_id);
 
-  // const place = await daoPlace.findOne(
-  //   { dish_id: dish.dish_id },
-  //   placeDetailsSchema
-  // );
-  // console.log(
-  //   `model: ${review.price},${review.rating}, ${dish.name}, ${place.name}`
-  // );
-  return { success: true, data: dish };
-}
-
-//use dish_id from daoReview to find name + places_id in daoDish. Then use places_id from dishDao to find name in placeDao. Create constant to return object with dish@eatery, price, review
-//random reviews (getall to return array of _id in reviews, then math.random to choose one )
-
-// const allReviews = await daoReview.find({ _id: objectId }, reviewDetailsSchema);
-// let randomID = allReviews[math.floor(math.random(allReviews.length))];
+  // const dish = await daoDish.findOne({ _id: dishObjectId }, dishDetailsSchema);
+  // // console.log(`model dishDetailsSchema: ${dish}`);
+  return { success: true, data: dishDoc }
+}  
 
 async function findOrCreateDish(dishName, placeId, price) {
   let dishDoc = await daoDish.findOne({ name: dishName, place_id: placeId });
@@ -66,4 +51,10 @@ async function updateAvgRating(dishId) {
   const avgRating = ratings.length > 0 ? ratings.reduce((a, b) => a + b) / ratings.length : 0;
   
   return await daoDish.findByIdAndUpdate(dishId, { avg_rating: avgRating }, { new: true });
+}
+
+async function fetchAllDishesIDs(){
+  const allDishesIDs = await daoDish.find();
+  // console.log(`allDishesIDs`, allDishesIDs);
+  return allDishesIDs
 }
