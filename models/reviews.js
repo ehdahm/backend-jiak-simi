@@ -67,6 +67,7 @@ async function createReview(body) {
     let dishDocs = await Promise.all(dishes.map(dish => 
       modelDish.findOrCreateDish(dish.name, placeDoc._id, dish.price)
     )); // returns arr
+
     console.log(dishDocs)
     
     // create the review
@@ -74,8 +75,9 @@ async function createReview(body) {
       createDishReview(dish, dishDocs[index]._id, userSessionDoc.user_id)
     ));
 
+    
     // update the ratings
-    let updatedDishDocs = await Promise.all(dishDocs.map(dishDoc => 
+    let updatedDishDocs = await Promise.all(dishDocs.map((dishDoc) => 
       modelDish.updateAvgRating(dishDoc._id)
     ));
    
