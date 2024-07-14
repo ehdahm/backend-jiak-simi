@@ -4,6 +4,7 @@ module.exports = {
   getReview,
   fetchReviewsByUser,
   createReview,
+  updateReview,
 };
 
 
@@ -39,6 +40,17 @@ async function createReview(req, res) {
     const newReview = await Reviews.createReview(req.body)
     console.log('newReview json', newReview)
     res.json(newReview)
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err });
+  }
+}
+async function updateReview(req, res) {
+  try {
+    console.log('createReview req.body', req.body)
+    const updatedReview = await Reviews.updateReview(req.body)
+    console.log('updatedReview json', updatedReview)
+    res.json(updatedReview)
   } catch (err) {
     console.log(err);
     res.status(500).json({ err });

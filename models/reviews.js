@@ -10,6 +10,7 @@ module.exports = {
   fetchReviewsByUser,
   findAllByDishId,
   createReview,
+  updateReview
 };
 
 async function getReview(reviewID) {
@@ -82,6 +83,49 @@ async function createReview(body) {
    
     // merge responses
     const data = {placeDoc, dishDocs, updatedDishDocs, reviewDocs}
+    console.log(data)
+    return {success : true, data}
+  } catch (error) {
+    console.error('Error in createReview:', error);
+    throw {success : false, error};
+  }
+}
+
+async function updateReview(body) {
+  try{
+      // destructure the inputs
+      const { token, dish } = body;
+    
+      console.log('dish', dish)
+      // find user who is adding the review
+      let userSessionDoc = await userSessions.findOne({token})
+      console.log(`userSession userSessionDoc.user_id`, userSessionDoc.user_id)
+
+      //find dish ID from dish name - for first form only
+      let dishID = await modelDish.getDishID(dish.name)
+      console.log(`updateReview dish.name`, dish.name )
+      console.log(`updateReview dishID`, dishID)
+
+      //find placeID 
+      let placeID = await modelDish.getDish(dishID)
+
+    const dishIDObjectId = new ObjectId(dishID); // Convert dishID to ObjectId
+    const userObjectId = new ObjectId(userSessionDoc.user_id); // Convert userID to ObjectId
+
+    //find and update doc in reviews collection that matches FIRST makan form
+    let updatedReview = await daoReview.updateOne({ dish_id: dishIDObjectId, user_id: userObjectId}, dish);
+console.log(`updatedReview`, updatedReview)
+
+   // check if theres a dish, if not create it
+    // update the dishes with the latest price
+    let dishDocs = await modelDish.findOrCreateDish(dish.name, placeID, dish.price)
+ // returns arr
+    console.log(`dishDocs in review model`, dishDocs)
+
+    // update the ratings
+    let updatedDishDocs = await modelDish.updateAvgRating(dishDoc._id)
+
+    const data = {updatedReview, dishDocs, updatedDishDocs}
     console.log(data)
     return {success : true, data}
   } catch (error) {
