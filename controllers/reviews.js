@@ -1,12 +1,16 @@
 const Reviews = require("../models/reviews");
 
 module.exports = {
+<<<<<<< Updated upstream
   getReview,
   fetchReviewsByUser,
+=======
+>>>>>>> Stashed changes
   createReview,
   updateReview,
 };
 
+<<<<<<< Updated upstream
 
 
 async function getReview(req, res) {
@@ -34,12 +38,14 @@ async function fetchReviewsByUser(req, res) {
   }
 }
 
+=======
+>>>>>>> Stashed changes
 async function createReview(req, res) {
   try {
-    console.log('createReview req.body', req.body)
-    const newReview = await Reviews.createReview(req.body)
-    console.log('newReview json', newReview)
-    res.json(newReview)
+    console.log("createReview req.body", req.body);
+    const newReview = await Reviews.createReview(req.body);
+    console.log("newReview json", newReview);
+    res.json(newReview);
   } catch (err) {
     console.log(err);
     res.status(500).json({ err });

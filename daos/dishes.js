@@ -15,16 +15,16 @@ const dishesSchema = new Schema(
     },
     avg_rating: {
       type: Number,
-      required: false
+      required: false,
     },
     latest_price: {
       type: Number,
-      required: false
-    }
+      required: false,
+    },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Compile the schema into a model and export it

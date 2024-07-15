@@ -19,7 +19,7 @@ async function getPlace(place_id, dish_id) {
 
   const place = await daoPlace.findOne(
     { _id: placeObjectId },
-    placeDetailsSchema
+    placeDetailsSchema,
   );
   return { success: true, data: place };
 }

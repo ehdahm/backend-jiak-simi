@@ -10,15 +10,15 @@ const userSessionsSchema = new Schema(
       required: true,
     },
     token: {
-      type: String
+      type: String,
     },
     expire_at: {
-      type: Number
-    },  
+      type: Number,
+    },
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Compile the schema into a model and export it

@@ -20,13 +20,11 @@ const userSchema = new Schema(
       type: Number,
       required: true,
     },
-
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Compile the schema into a model and export it
 module.exports = mongoose.model("User", userSchema);
-

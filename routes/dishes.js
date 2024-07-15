@@ -8,5 +8,7 @@ router.get("/", dishesCtrl.fetchAllDishesIDs);
 /* GET each dish listing. */
 router.get("/:dish_id", dishesCtrl.getDish);
 
+/* GET all reviews for dish */
+router.get("/:dish_id/reviews", dishesCtrl.getReviewsForDish);
 
 module.exports = router;

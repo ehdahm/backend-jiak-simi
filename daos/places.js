@@ -15,7 +15,7 @@ const placesSchema = new Schema(
   },
   {
     timestamps: true,
-  }
+  },
 );
 
 // Compile the schema into a model and export it
