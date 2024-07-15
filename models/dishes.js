@@ -5,6 +5,7 @@ var ObjectId = require("mongoose").Types.ObjectId;
 
 module.exports = {
   getDish,
+  getDishID,
   findOrCreateDish,
   updatePrice,
   updateAvgRating,
@@ -12,19 +13,16 @@ module.exports = {
 };
 
 async function getDish(dish_id) {
+  console.log(`getDish model dish_id`, dish_id)
   let dishDoc = await daoDish.findOne({ _id: dish_id });
-  console.log('dishDoc', dishDoc);
-  // const review = await modelReview.getDish();
-  // // console.log(`review in dishes model: ${review.data.dish_id}`);
-  // const dishDetailsSchema = {
-  //   name: 1,
-  //   place_id: 1,
-  // };
-  // const dish_id = review.data.dish_id;
-  // const dishObjectId = new ObjectId(dish_id);
+  console.log('getDish dishDoc', dishDoc);
+  return { success: true, data: dishDoc }
+}  
 
-  // const dish = await daoDish.findOne({ _id: dishObjectId }, dishDetailsSchema);
-  // // console.log(`model dishDetailsSchema: ${dish}`);
+async function getDishID(dishName) {
+  console.log(`dishName`, dishName)
+  let dishDoc = await daoDish.findOne({ name: dishName });
+  console.log('getDishID dishDoc', dishDoc);
   return { success: true, data: dishDoc }
 }  
 
