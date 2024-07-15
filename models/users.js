@@ -17,7 +17,10 @@ async function signup(body) {
     return { success: false, error: "user already exists" };
   }
   const newUser = await UserDao.create(body);
-  return { success: true, data: newUser };
+  console.log('newUser signup', newUser)
+  const token = await createUserSession(newUser)
+  console.log('signup token', token)
+  return { success: true, data: token };
 }
 
 async function getSaltAndIterations(body) {
@@ -53,20 +56,8 @@ async function loginUser(body) {
     return { success: false, error: "Invalid username/password" };
   }
 
-  // Store user_id 
-  const userId = user._id
+  const token = await createUserSession(user)
 
-  // Use user_id in payload for jwt
-  const jwtPayload = {
-    user_id: userId,
-  };
-  const token = utilSecurity.createJWT(jwtPayload); // Returns a string, after signing
-  const expiry = utilSecurity.getExpiry(token);
-
-  // Create new user session
-  await UserSessionsDao.create(
-    { user_id: userId, token: token, expire_at: expiry },
-  );
   return { success: true, data: token };
 }
 
@@ -78,4 +69,21 @@ async function logoutUser(body) {
   await UserSessionsDao.deleteOne({"user_id": body.user_id});
   const userData = await UserDao.findOne({"_id": body.user_id})
   return { success: true, data: userData.username}
+}
+
+// uses userId to create a new login session taking user payload
+async function createUserSession(user) {
+  // Use user_id in payload for jwt
+  const jwtPayload = {
+    user_id: user._id,
+    username: user.username
+  };
+  const token = utilSecurity.createJWT(jwtPayload); // Returns a string, after signing
+  const expiry = utilSecurity.getExpiry(token);
+
+  // Create new user session
+  await UserSessionsDao.create(
+    { user_id: user._id, token: token, expire_at: expiry },
+  );
+  return token
 }
