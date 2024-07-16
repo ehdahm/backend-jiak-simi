@@ -7,11 +7,9 @@ module.exports = {
   updateReview,
 };
 
-
-
 async function getReview(req, res) {
   try {
-    console.log('getReview req.params.review_id', req.params.review_id)
+    console.log("getReview req.params.review_id", req.params.review_id);
     const reviewsByID = await Reviews.getReview(req.params.review_id); // pass req to model //respond with review input
     console.log("reviewsByID json:", reviewsByID);
     res.status(200).json(reviewsByID);
@@ -23,7 +21,7 @@ async function getReview(req, res) {
 }
 async function fetchReviewsByUser(req, res) {
   try {
-    console.log('fetchReviewsByUser req.params.user_id', req.params.user_id)
+    console.log("fetchReviewsByUser req.params.user_id", req.params.user_id);
     const reviewsByUser = await Reviews.fetchReviewsByUser(req.params.user_id); // pass req to model //respond with review input
     console.log("reviewsByUser json:", reviewsByUser);
     res.status(200).json(reviewsByUser);
@@ -36,10 +34,10 @@ async function fetchReviewsByUser(req, res) {
 
 async function createReview(req, res) {
   try {
-    console.log('createReview req.body', req.body)
-    const newReview = await Reviews.createReview(req.body)
-    console.log('newReview json', newReview)
-    res.json(newReview)
+    console.log("createReview req.body", req.body);
+    const newReview = await Reviews.createReview(req.body);
+    console.log("newReview json", newReview);
+    res.json(newReview);
   } catch (err) {
     console.log(err);
     res.status(500).json({ err });
@@ -47,10 +45,10 @@ async function createReview(req, res) {
 }
 async function updateReview(req, res) {
   try {
-    console.log('createReview req.body', req.body)
-    const updatedReview = await Reviews.updateReview(req.body)
-    console.log('updatedReview json', updatedReview)
-    res.json(updatedReview)
+    console.log("updateReview req.body", req.body);
+    const updatedReview = await Reviews.updateReview(req.body);
+    console.log("updatedReview json", updatedReview);
+    res.json(updatedReview);
   } catch (err) {
     console.log(err);
     res.status(500).json({ err });
