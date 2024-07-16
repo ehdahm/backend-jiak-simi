@@ -1,5 +1,6 @@
 const daoDish = require("../daos/dishes");
 const daoReview = require("../daos/reviews");
+const daoPlace = require("../daos/places");
 
 var ObjectId = require("mongoose").Types.ObjectId;
 
@@ -10,6 +11,7 @@ module.exports = {
   updatePrice,
   updateAvgRating,
   fetchAllDishesIDs,
+  getDishIDByPlaceID,
 };
 
 async function getDish(dish_id) {
@@ -69,4 +71,13 @@ async function fetchAllDishesIDs() {
   const allDishesIDs = await daoDish.find();
   // console.log(`allDishesIDs`, allDishesIDs);
   return allDishesIDs;
+}
+
+async function getDishIDByPlaceID(place_id) {
+  console.log(`getDishIDByPlaceID mdoel place_id`, place_id);
+  const placeObjectID = new ObjectId(place_id);
+  console.log(`placeObjectID`, placeObjectID);
+  const dishID = await daoDish.findOne({ place_id: placeObjectID });
+  console.log(`dishID`, dishID);
+  return dishID;
 }
