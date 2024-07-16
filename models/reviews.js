@@ -114,6 +114,7 @@ async function updateReview(body) {
 
     //find placeID
     let placeID = await modelDish.getDish(dishID.data);
+    console.log(`placeID placeID.place_id`, placeID, placeID.data.place_id);
 
     const dishIDObjectId = new ObjectId(dishID.data._id); // Convert dishID to ObjectId
     console.log(`dishIDObjectId`, dishIDObjectId);
@@ -131,7 +132,7 @@ async function updateReview(body) {
     // update the dishes with the latest price
     let dishDocs = await modelDish.findOrCreateDish(
       dishes.name,
-      placeID.place_id,
+      placeID.data.place_id,
       dishes.price
     );
     // returns arr
@@ -141,7 +142,7 @@ async function updateReview(body) {
     let updatedDishDocs = await modelDish.updateAvgRating(dishID.data._id);
 
     const data = { updatedReview, dishDocs, updatedDishDocs };
-    console.log(data);
+    console.log(`update review model data`, data);
     return { success: true, data };
   } catch (error) {
     console.error("Error in updateReview:", error);
