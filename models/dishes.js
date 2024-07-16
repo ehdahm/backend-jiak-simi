@@ -30,13 +30,22 @@ async function getDishID(dishName) {
 
 async function findOrCreateDish(dishName, placeId, price) {
   // find dish document
+  console.log(
+    `findOrCreateDish dishName, placeid, price`,
+    dishName,
+    placeId,
+    price
+  );
   let dishDoc = await daoDish.findOneAndUpdate(
     { name: dishName, place_id: placeId },
     { latest_price: price }
   );
 
+  console.log(`findOrCreateDish dishDoc`, dishDoc);
+
   // if it doesnt exist, just create the document
   if (!dishDoc) {
+    console.log(`NO DISH DOC`);
     dishDoc = await daoDish.create({
       name: dishName,
       place_id: placeId,
