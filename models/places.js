@@ -6,6 +6,7 @@ var ObjectId = require("mongoose").Types.ObjectId;
 module.exports = {
   getPlace,
   findOrCreatePlace,
+  getplaceIDbyCuisine,
 };
 
 async function getPlace(place_id, dish_id) {
@@ -30,4 +31,9 @@ async function findOrCreatePlace(placeName, cuisine) {
     placeDoc = await daoPlace.create({ name: placeName, cuisine });
   }
   return placeDoc;
+}
+async function getplaceIDbyCuisine(cuisine) {
+  let placeID = await daoPlace.find({ cuisine: cuisine }, { _id: 1 });
+  console.log(`placedmodel getplaceIDbyCuisine`, placeID);
+  return placeID; //returns whole place doc
 }

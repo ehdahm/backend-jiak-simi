@@ -5,6 +5,7 @@ module.exports = {
   fetchAllDishesIDs,
   getDish,
   getReviewsForDish,
+  getDishIDByPlaceID,
 };
 
 async function fetchAllDishesIDs(req, res) {
@@ -33,12 +34,23 @@ async function getDish(req, res) {
 async function getReviewsForDish(req, res) {
   try {
     const dishId = req.params.dish_id;
-    console.log(dishId)
+    console.log(dishId);
     const reviews = await Review.findAllByDishId(dishId);
-    console.log(reviews)
-    res.status(200).json(reviews); 
+    console.log(reviews);
+    res.status(200).json(reviews);
   } catch (err) {
     console.log(err);
-    res.status(500).json({ error: err.message }); 
+    res.status(500).json({ error: err.message });
+  }
+}
+
+async function getDishIDByPlaceID(req, res) {
+  try {
+    const dishID = await Dishes.getDishIDByPlaceID(req.params.place_id);
+    console.log(`dishID ctrldish`, dishID);
+    res.status(200).json(dishID);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err });
   }
 }
