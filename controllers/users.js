@@ -4,7 +4,8 @@ module.exports = {
   signup,
   getSaltAndIterations,
   loginUser,
-  logoutUser
+  logoutUser,
+  getUsername
 };
 
 async function signup(req, res) {
@@ -53,6 +54,22 @@ async function logoutUser(req, res) {
     res.json(result.data)
   }
   catch (err) {
+    res.status(500).json({ errorMsg: err.message });
+  }
+}
+
+async function getUsername(req, res) {
+  try {
+    const userId = req.query.user_id;
+    console.log('userId', userId)
+    const user = await UserModel.getUsername(userId);
+    console.log('user', user)
+    if (!user) {
+      res.status(404).json({ errorMsg: "User not found" });
+      return;
+    }
+    res.json({ username: user });
+  } catch (err) {
     res.status(500).json({ errorMsg: err.message });
   }
 }

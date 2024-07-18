@@ -3,10 +3,8 @@ var router = express.Router();
 const UserController = require("../controllers/users");
 const securityMiddleware = require('../middlewares/security')
 
-/* GET users listing. */
-router.get("/", function (req, res, next) {
-  res.send("respond with a resource");
-});
+/* GET users . */
+router.get("/user", UserController.getUsername)
 
 // POST signup users
 router.post("/signup", UserController.signup);

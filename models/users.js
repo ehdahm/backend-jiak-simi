@@ -7,7 +7,8 @@ module.exports = {
   signup,
   getSaltAndIterations,
   loginUser,
-  logoutUser
+  logoutUser,
+  getUsername,
 };
 
 async function signup(body) {
@@ -86,4 +87,10 @@ async function createUserSession(user) {
     { user_id: user._id, token: token, expire_at: expiry },
   );
   return token
+}
+
+async function getUsername(user_id) {
+  console.log('user_id is this', user_id)
+  const user = await UserDao.findOne({ "_id": user_id });
+  return user ? user.username : null;
 }
