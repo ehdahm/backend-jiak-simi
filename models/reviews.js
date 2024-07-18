@@ -75,11 +75,8 @@ async function createReview(body) {
 
     // create the review
     let reviewDocs = await Promise.all(
-      dishes.map(
-        (
-          dish,
-          index // returns arr
-        ) => createDishReview(dish, dishDocs[index]._id, userSessionDoc.user_id)
+      dishes.map((dish, index) => // returns arr
+        createDishReview(dish, dishDocs[index]._id, userSessionDoc.user_id)
       )
     );
 
@@ -158,5 +155,6 @@ async function createDishReview(dish, dishId, userId) {
     rating: dish.rating,
     dish_id: dishId,
     user_id: userId,
+    image_url: dish.image_url
   });
 }

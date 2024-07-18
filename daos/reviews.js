@@ -27,6 +27,10 @@ const reviewsSchema = new Schema(
       type: String,
       required: false,
     },
+    image_url: {
+      type: String,
+      required: false,
+    },
   },
   {
     timestamps: true,
