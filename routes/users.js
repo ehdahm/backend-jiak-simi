@@ -1,10 +1,10 @@
 var express = require("express");
 var router = express.Router();
 const UserController = require("../controllers/users");
-const securityMiddleware = require('../middlewares/security')
+const securityMiddleware = require("../middlewares/security");
 
 /* GET users . */
-router.get("/user", UserController.getUsername)
+router.get("/user/:user_id", UserController.getUsername);
 
 // POST signup users
 router.post("/signup", UserController.signup);
