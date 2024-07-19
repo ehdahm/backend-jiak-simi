@@ -5,6 +5,7 @@ var logger = require("morgan");
 const cors = require("cors");
 require("dotenv").config();
 require("./client/mongo");
+const port = process.env.PORT || 4000;
 
 var securityMiddleware = require("./middlewares/security");
 var indexRouter = require("./routes/index");
